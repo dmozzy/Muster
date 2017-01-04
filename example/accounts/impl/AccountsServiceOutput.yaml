@@ -1,0 +1,24 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Example Muster Account Service
+Resources:
+  AccountsService:
+    Properties:
+      CodeUri: s3://muster-lambda/f41c97ad87e22258a0f1ec86f7edeb6d
+      Description: ''
+      Environment:
+        Variables:
+          PreWarmCount: 3
+          ServiceClasses: com.github.dmozzy.muster.example.accounts.impl.AccountsServiceImpl
+      Events:
+        PreWarmLambdas:
+          Properties:
+            Schedule: rate(5 minutes)
+          Type: Schedule
+      Handler: com.github.dmozzy.muster.apilambda.MusterLambdaHandler::lambdaEntry
+      MemorySize: 512
+      Role:
+        Fn::Sub: arn:aws:iam::${AWS::AccountId}:role/MusterRole
+      Runtime: java8
+      Timeout: 15
+    Type: AWS::Serverless::Function
+Transform: AWS::Serverless-2016-10-31

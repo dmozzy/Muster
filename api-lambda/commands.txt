@@ -1,0 +1,10 @@
+aws cloudformation package --template-file Testing.yaml --output-template-file Testing-output.yaml  --s3-bucket muster-lambda
+aws cloudformation delete-stack --stack-name TestingStack
+aws cloudformation deploy --template-file Testing-output.yaml --stack-name TestingStack
+aws cloudformation deploy --template-file MusterPersistentStack.yaml --stack-name PersistentStack 
+
+{
+  "requestReference": "6d3b76a3-529d-49ae-81b5-892c4",
+  "method": "TMController",
+  "data": "{'key':'val}"
+}

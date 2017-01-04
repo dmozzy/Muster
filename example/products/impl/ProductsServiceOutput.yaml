@@ -1,0 +1,24 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Example Muster Products Service
+Resources:
+  ProductsService:
+    Properties:
+      CodeUri: s3://muster-lambda/d4b3d074866340a00996ccd00d844d63
+      Description: ''
+      Environment:
+        Variables:
+          PreWarmCount: 3
+          ServiceClasses: com.github.dmozzy.muster.example.products.impl.ProductsServiceImpl
+      Events:
+        PreWarmLambdas:
+          Properties:
+            Schedule: rate(5 minutes)
+          Type: Schedule
+      Handler: com.github.dmozzy.muster.apilambda.MusterLambdaHandler::lambdaEntry
+      MemorySize: 512
+      Role:
+        Fn::Sub: arn:aws:iam::${AWS::AccountId}:role/MusterRole
+      Runtime: java8
+      Timeout: 15
+    Type: AWS::Serverless::Function
+Transform: AWS::Serverless-2016-10-31

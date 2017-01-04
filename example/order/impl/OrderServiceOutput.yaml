@@ -1,0 +1,29 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Example Muster Order Service
+Resources:
+  OrderService:
+    Properties:
+      CodeUri: s3://muster-lambda/e62028cac00f527c7bd476472d9dc92c
+      Description: ''
+      Environment:
+        Variables:
+          PreWarmCount: 10
+          ServiceClasses: com.github.dmozzy.muster.example.order.impl.OrderServiceImpl
+      Events:
+        Api1:
+          Properties:
+            Method: ANY
+            Path: /OrderService
+          Type: Api
+        PreWarmLambdas:
+          Properties:
+            Schedule: rate(5 minutes)
+          Type: Schedule
+      Handler: com.github.dmozzy.muster.apilambda.MusterLambdaHandler::lambdaEntry
+      MemorySize: 512
+      Role:
+        Fn::Sub: arn:aws:iam::${AWS::AccountId}:role/MusterRole
+      Runtime: java8
+      Timeout: 15
+    Type: AWS::Serverless::Function
+Transform: AWS::Serverless-2016-10-31

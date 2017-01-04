@@ -1,0 +1,12 @@
+dependencies {
+    compile project(':api-lambda')    
+    compile project(':example:invoice:shared')    
+}
+
+task buildZip(type: Zip) {
+    from compileJava
+    from processResources              
+    into('lib') {
+        from configurations.runtime
+    }           
+}

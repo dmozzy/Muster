@@ -1,0 +1,72 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Resources:
+  MusterCall:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: "MusterCall"
+      AttributeDefinitions:
+        - AttributeName: requestReference
+          AttributeType: S
+      KeySchema:
+        - AttributeName: requestReference
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 25
+        WriteCapacityUnits: 25
+  MusterRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      AssumeRolePolicyDocument: 
+        Version: "2012-10-17"
+        Statement: 
+          - 
+            Effect: "Allow"
+            Principal: 
+              Service: 
+                - "lambda.amazonaws.com"
+            Action: 
+              - "sts:AssumeRole"    
+      Path: "/"
+      Policies:
+        -
+         PolicyName: "MusterLogging"
+         PolicyDocument:
+           Version: "2012-10-17"
+           Statement: 
+            - 
+              Effect: "Allow"
+              Action: 
+                - "logs:CreateLogGroup"
+                - "logs:CreateLogStream"
+                - "logs:PutLogEvents"
+              Resource: "arn:aws:logs:*:*:*"
+        -
+         PolicyName: "MusterDynamoAccess"
+         PolicyDocument:
+           Version: "2012-10-17"
+           Statement: 
+            - 
+              Effect: "Allow"
+              Action: 
+                - "dynamodb:BatchGetItem"
+                - "dynamodb:BatchWriteItem"
+                - "dynamodb:GetItem"
+                - "dynamodb:GetRecords"
+                - "dynamodb:GetShardIterator"
+                - "dynamodb:PutItem"
+                - "dynamodb:Query"
+                - "dynamodb:UpdateItem"
+                - "dynamodb:UpdateTable"
+              Resource: "*" 
+        -
+         PolicyName: "MusterLambdaAccess"
+         PolicyDocument:
+           Version: "2012-10-17"
+           Statement: 
+            - 
+              Effect: "Allow"
+              Action: 
+                - "lambda:ListFunctions"
+                - "lambda:InvokeFunction"
+              Resource: "*"
+      RoleName: "MusterRole"

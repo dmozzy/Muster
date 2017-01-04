@@ -1,0 +1,29 @@
+﻿AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: 'Example Muster Order Service'
+Resources:
+  OrderService:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: 'com.github.dmozzy.muster.apilambda.MusterLambdaHandler::lambdaEntry'
+      Runtime: java8
+      CodeUri: ./build/distributions/impl.zip
+      Description: ''
+      MemorySize: 512
+      Timeout: 15
+      Role: !Sub "arn:aws:iam::${AWS::AccountId}:role/MusterRole"
+      Events:
+        Api1:
+          Type: Api
+          Properties:
+            Path: /OrderService
+            Method: ANY
+        PreWarmLambdas:
+          Type: Schedule
+          Properties:
+            Schedule: rate(5 minutes)
+      Environment:
+        Variables:
+          ServiceClasses: com.github.dmozzy.muster.example.order.impl.OrderServiceImpl
+          #Prewarm set to 10 as this is the entry point and thus can't be retried by muster
+          PreWarmCount: 10
