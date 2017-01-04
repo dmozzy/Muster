@@ -19,11 +19,7 @@ Features
 How Muster solves some of the limitations with AWS Lambda Java Functions
 -----------------
 
-
-----------
-
-
- **Slow startup times.**
+ -- **Slow startup times.**
 A Java Lambda function can take 10 seconds or more to start (in extreme circumstances). Muster works around this by:
 
  - Prewarming - A configurable number of functions are kept warm. The prewarm call is triggered every 5 minutes as it appears to be sufficient to keep the Lambda warm.
@@ -32,25 +28,17 @@ A Java Lambda function can take 10 seconds or more to start (in extreme circumst
  - Mutliple service per Lambda - Having many services inside the one Lambda means that even infrequently used functions are more likely to be in a warm state.
  
 
-
-----------
-
-
  
- **Too many functions.**
+-- **Too many functions.**
  Any decent size web service will end up having a lot of services. As Lambda functions need to be deployed independently, this can result in hundreds of deployable units. The dependencies between these can become unwieldly.
  Muster tries to solve this via:
  
  - Multiple functions and services deployed into a single Lambda.
  - Type safety between Muster functions even when deployed in another Lambda.
  - Gradle dependency management used to manage compile and runtime dependencies.
- 
 
 
-----------
-
-
-**Consistency**
+-- **Consistency**
 When running an application things will go wrong. The administrator needs to be able to determine when something goes wrong and have to have the ability to correct any of the data inconsistencies caused. Muster tries to solve this via:
 
  - Recording of calls - When a Muster Service is annotated with 'idempotency = true', Muster will record the status, request and response of the call. This data is stored in the 'MusterCall' Dynamo DB table.
@@ -58,8 +46,7 @@ When running an application things will go wrong. The administrator needs to be 
  
 It is envisaged that in the future an interface will need to be created over the MusterCall Dynamo Db table to provide for better visibility and error correction.
 
-----------
-**Performance**
+-- **Performance**
 As Lambda functions only support a single request thread at a time, it means that you will potentially need a large number of Lambda instances to support even a moderately used webservice. Also you are charged for the invocation time. Muster attempts to improve performance by
 
  - Asynchronous calls - A Muster call to a remote Muster Function will make the call asynchronously and return a future. Thus multiple child calls can be in progress at once.
@@ -165,7 +152,6 @@ Results
 Although a simple example and representative of the real world, the Muster example project can easily handle ~ 100 concurrent requests. This is with a configuration of max 1000 Lambdas and 25 units of Dynamo DB Read and Write.
 
 ![MusterTest.jmx Jmeter test](https://github.com/dmozzy/Muster/blob/master/images/PerformanceScreenshot.png)
-
 
 This is the result of running the included MusterTest.jmx file.
 
