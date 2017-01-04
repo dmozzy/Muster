@@ -166,6 +166,9 @@ Although a simple example and representative of the real world, the Muster examp
 
 ![MusterTest.jmx Jmeter test](https://github.com/dmozzy/Muster/blob/master/images/PerformanceScreenshot.png)
 
+
+This is the result of running the included MusterTest.jmx file.
+
 > Written with [StackEdit](https://stackedit.io/).
 
 
