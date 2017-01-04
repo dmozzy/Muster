@@ -114,7 +114,7 @@ Getting Started
 --------
 **Warning: this is not for the faint of heart and assumes a good understanding of AWS, IAM, API Gateway, Lambda and Dynamo DB. It also assumes that you have the aws cli installed and are running on Mac OSX or Linux.**
 
-Currently Muster is only used in a test project. Below are the instructions for installing and running the example project.
+Currently Muster is only used in a test project. Below are the instructions for installing and running the example project. This example project consists of 4 independently deployed services. The OrderService calls all 4 to simulate a complex orchestration.
 
 
  1. Setup an S3 bucket that can be used for deployment. This will need to be used when running the deployment later.
